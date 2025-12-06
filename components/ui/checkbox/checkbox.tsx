@@ -15,6 +15,7 @@ export default function Checkbox({label, checked, onChange}: CheckboxProps) {
             <ExpoCheckbox
                 value={checked}
                 onValueChange={onChange}
+                style={{borderColor: "#EBEDED"}}
             />
             <Text style={styles.label}>{label}</Text>
         </Pressable>

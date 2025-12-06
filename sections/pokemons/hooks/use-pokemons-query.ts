@@ -12,6 +12,7 @@ const usePokemonsQuery = () => {
         fetchNextPage,
         hasNextPage,
         isLoading,
+        isError,
         refetch,
     } = useInfiniteQuery({
         initialPageParam: POKEAPI_BASE_URL,
@@ -31,6 +32,7 @@ const usePokemonsQuery = () => {
         fetchNextPage,
         hasNextPage,
         isLoading,
+        isError,
         refetch,
     }
 }

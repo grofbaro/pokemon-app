@@ -2,13 +2,14 @@ import {StyleSheet} from "react-native";
 
 export default StyleSheet.create({
     container: {
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: "#A5A7A7",
         borderRadius: 8,
         overflow: "hidden",
     },
     picker: {
         height: 50,
+        borderWidth: 2,
     },
     label: {
         fontSize: 18,

@@ -3,7 +3,7 @@ import {Pressable, Text, View} from "react-native";
 import {useRouter} from "expo-router";
 
 import {PokemonListItem} from "@/sections/pokemons/types/pokemon";
-import {usePokemonQuery} from "@/sections/pokemons/hooks/usePokemonQuery";
+import {usePokemonQuery} from "@/sections/pokemons/hooks/use-pokemon-query";
 import {usePokemonStore} from "@/store/pokemon-store";
 
 import styles from "./pokemon-list-item-card.style";

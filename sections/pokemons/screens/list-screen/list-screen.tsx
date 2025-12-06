@@ -1,6 +1,7 @@
 import React, {useCallback, useState, useMemo} from "react";
-import {ActivityIndicator, FlatList, View} from "react-native";
-import {usePokemonsQuery} from "@/sections/pokemons/hooks/usePokemonsQuery";
+import {ActivityIndicator, FlatList, Pressable, Text, View} from "react-native";
+import {usePokemonsQuery} from "@/sections/pokemons/hooks/use-pokemons-query";
+import {usePokemonsByTypeQuery} from "@/sections/pokemons/hooks/use-pokemons-by-type-query";
 import {PokemonListItem as PokemonListItemType} from "@/sections/pokemons/types/pokemon";
 import {PokemonFilterState} from "@/sections/pokemons/types/filter";
 import {usePokemonStore} from "@/store/pokemon-store";
@@ -23,12 +24,21 @@ export default function ListScreen() {
     const {
         data,
         isLoading,
+        isError,
         isFetchingNextPage,
         fetchNextPage,
         hasNextPage,
+        refetch,
     } = usePokemonsQuery();
 
-    const allPokemons = data?.pages.flatMap(page => page.results) ?? [];
+    const {
+        pokemons: pokemonsByType,
+        isLoading: isLoadingByType,
+    } = usePokemonsByTypeQuery(filters.selectedType);
+
+    const allPokemons = filters.selectedType
+        ? pokemonsByType
+        : (data?.pages.flatMap(page => page.results) ?? []);
 
     const pokemons = useMemo(() => {
         let result = allPokemons;
@@ -47,7 +57,7 @@ export default function ListScreen() {
         }
 
         return result;
-    }, [filters.showCaughtOnly, filters.searchTerm, caughtPokemons]);
+    }, [allPokemons, filters.showCaughtOnly, filters.searchTerm, caughtPokemons]);
 
     const handleFilterChange = useCallback((newFilters: PokemonFilterState) => {
         setFilters(newFilters);
@@ -77,7 +87,7 @@ export default function ListScreen() {
         );
     }, [filters.selectedType, isFetchingNextPage]);
 
-    if (isLoading) {
+    if (isLoading || isLoadingByType) {
         return (
             <View style={styles.centered}>
                 <ActivityIndicator size="large"/>
@@ -85,9 +95,20 @@ export default function ListScreen() {
         );
     }
 
+    if (isError) {
+        return (
+            <View style={styles.centered}>
+                <Text style={styles.errorText}>Failed to load Pokémon</Text>
+                <Pressable style={styles.retryButton} onPress={() => refetch()}>
+                    <Text style={styles.retryButtonText}>Try Again</Text>
+                </Pressable>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
-            <PokemonFilter onFilterChange={handleFilterChange} />
+            <PokemonFilter filters={filters} onFilterChange={handleFilterChange} />
             <FlatList
                 data={pokemons}
                 renderItem={renderItem}
@@ -97,7 +118,6 @@ export default function ListScreen() {
                 ListHeaderComponent={PokemonListHeader}
                 ListFooterComponent={renderFooter}
                 ListEmptyComponent={PokemonEmptyState}
-
                 contentContainerStyle={styles.flatListContainer}
                 showsVerticalScrollIndicator={false}
             />

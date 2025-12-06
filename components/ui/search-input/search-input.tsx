@@ -29,7 +29,7 @@ export default function SearchInput({onChange, debounceMs = 300}: SearchInputPro
     }, [value, debounceMs, onChange]);
 
     return <View style={styles.container}>
-        <Ionicons name="search" size={24} color="#A5A7A7" />
+        <Ionicons name="search" size={24} color="#EBEDED" />
         <TextInput
             style={styles.searchInput}
             value={value}

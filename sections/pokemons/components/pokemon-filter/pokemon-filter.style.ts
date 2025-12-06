@@ -2,8 +2,8 @@ import {StyleSheet} from "react-native";
 
 export default StyleSheet.create({
     container: {
-        paddingHorizontal: 16,
-        paddingVertical: 8,
+        paddingHorizontal: 24,
+        paddingVertical: 24,
         gap: 16,
     },
 });

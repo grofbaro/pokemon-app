@@ -3,7 +3,7 @@ import {ActivityIndicator, Image, Pressable, ScrollView, Text, View} from "react
 import {useLocalSearchParams, useRouter} from "expo-router";
 import {Ionicons} from "@expo/vector-icons";
 
-import {usePokemonQuery} from "@/sections/pokemons/hooks/usePokemonQuery";
+import {usePokemonQuery} from "@/sections/pokemons/hooks/use-pokemon-query";
 import {usePokemonStore} from "@/store/pokemon-store";
 
 import styles from "./detail-screen.style";
